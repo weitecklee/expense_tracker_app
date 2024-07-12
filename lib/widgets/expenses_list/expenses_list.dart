@@ -6,15 +6,23 @@ class ExpensesList extends StatelessWidget {
   const ExpensesList({
     super.key,
     required this.expenses,
+    required this.onRemoveExpense,
   });
 
   final List<Expense> expenses;
+  final void Function(Expense expense) onRemoveExpense;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: expenses.length,
-      itemBuilder: (ctx, i) => ExpenseItem(expenses[i]),
+      itemBuilder: (ctx, i) => Dismissible(
+        key: ValueKey(expenses[i]),
+        child: ExpenseItem(expenses[i]),
+        onDismissed: (d) {
+          onRemoveExpense(expenses[i]);
+        },
+      ),
     );
   }
 }
