@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
 final dateFormatter = DateFormat.yMd();
+final randomizer = Random();
 
 enum Category {
   food,
@@ -11,6 +14,10 @@ enum Category {
   leisure,
   work,
 }
+
+const categories = Category.values;
+
+Category getRandomCategory() => categories[Random().nextInt(categories.length)];
 
 const categoryIcons = {
   Category.food: Icons.lunch_dining,

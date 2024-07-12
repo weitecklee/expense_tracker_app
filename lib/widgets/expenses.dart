@@ -1,8 +1,12 @@
+import 'dart:math';
+import 'package:english_words/english_words.dart';
 import 'package:expense_tracker_app/widgets/chart/chart.dart';
 import 'package:expense_tracker_app/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker_app/models/expense.dart';
 import 'package:expense_tracker_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
+
+final randomizer = Random();
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -65,6 +69,19 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
+  void _addRandomExpense() {
+    setState(() {
+      _registeredExpenses.add(
+        Expense(
+          title: WordPair.random().asPascalCase,
+          amount: randomizer.nextDouble() * 50,
+          date: DateTime.now(),
+          category: getRandomCategory(),
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget mainContent = const Center(
@@ -82,6 +99,10 @@ class _ExpensesState extends State<Expenses> {
       appBar: AppBar(
         title: const Text('Expense Tracker App'),
         actions: [
+          IconButton(
+            onPressed: _addRandomExpense,
+            icon: const Icon(Icons.shuffle),
+          ),
           IconButton(
             onPressed: _openAddExpenseOverlay,
             icon: const Icon(Icons.add),
